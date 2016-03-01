@@ -16,17 +16,15 @@ let elementHeight = CGFloat(20)
 let columnIndices = 0..<15
 
 func makeElementRect(index: Int) -> CGRect {
-    elementWidth += 1.0
     return CGRectMake(elementWidth * CGFloat(index), CGFloat(0.0), elementWidth, elementHeight)
 }
-
-elementWidth
 
 /*:
 Here's where we use the function makeElementRect as the argument to map():
 */
 
 let rowOfElementRects = columnIndices.map(makeElementRect)
+
 
 /*:
 _Please don't confuse the functional-programming use of the term "map" with Java's use of it (e.g., in HashMap). In Java it is a class or an interface defining an object having keys and values. Here "map" is a method. What Java calls a HashMap is called a Dictionary in Swift, we'll get to dictionaries in the next playground._
@@ -122,7 +120,6 @@ divisibleByThree // [6, 12, 18]
 
 You can reduce an array down to a single value. Often times this is a running total. For example, you might have an array of car rentals, each rental has a price, and you want to sum the prices. You'd do that like this:
 */
-
 
 struct CarRental {
     var price = 0.0
