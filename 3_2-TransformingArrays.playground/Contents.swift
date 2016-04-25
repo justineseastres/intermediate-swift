@@ -1,7 +1,7 @@
 /*:
-## 4.2&mdash;Transforming Arrays
+## 3.2&mdash;Transforming Arrays
 
-_Acknowledgement: This playground follows and simplifies to an intermediate level Section 4.2 of [Advanced Swift]( https://www.objc.io/books/advanced-swift/ ), by Chris Eidhof and Airspeed Velocity._
+_Acknowledgement: This playground follows and simplifies to an intermediate level Section 3.2 of [Advanced Swift]( https://www.objc.io/books/advanced-swift/ ), by Chris Eidhof and Airspeed Velocity._
 
 ### Map
 
@@ -63,7 +63,7 @@ Here's an example of the power of closures. The following two functions differ b
 
 func squared(base: Int) -> Int {
     var result = 1
-    for var i = 0; i < 2; i += 1 {
+    for _ in 0 ..< 2 {
         result *= base
     }
     return result
@@ -71,7 +71,7 @@ func squared(base: Int) -> Int {
 
 func cubed(base: Int) -> Int {
     var result = 1
-    for var i = 0; i < 3; i += 1 {
+    for _ in 0 ..< 3 {
         result *= base
     }
     return result
@@ -84,7 +84,7 @@ It would be very nice to define fourthPower, fifthPower, etc. if there is some w
 func anyPower(n: Int) -> (Int->Int) {
     func nthPower(base: Int) -> Int {
         var result = 1
-        for var i = 0; i < n; i += 1 {
+        for _ in 0 ..< n {
             result *= base
         }
         return result
