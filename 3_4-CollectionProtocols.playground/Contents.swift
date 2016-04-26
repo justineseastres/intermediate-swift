@@ -90,7 +90,93 @@ If it helps those who know Java, it is pretty much the same thing as an Iterator
  
 If you need more motivation for learning generators, I'll just add that the `for i in x { ... }` is actually just calling x.generate() and then calling next() repeatedly on whatever that returns. So by learning generators, really you are learning how Swift's for loop works!
 
+Without further ado, here is what you can glean from the [Swift doc for GeneratorType]( http://swiftdoc.org/v2.2/protocol/GeneratorType/ ):
+
+```
+protocol GeneratorType {
+   associatedtype Element
+   mutating func next() -> Element?
+}
+```
+ 
+Eidhof and Velocity give us a truly simple example of a generator
 */
 
+class ConstantGenerator: GeneratorType {
+    typealias Element = Int
+    func next() -> Element? {
+        return 1
+    }
+}
 
+let aConstantGenerator = ConstantGenerator()
+
+for i in 0..<5 {
+    print("\(aConstantGenerator.next()!)")
+}
+
+/*:
+Amazingly, the type inference system even allows you to elide the typealias:
+*/
+
+class ConstantGenerator2: GeneratorType {
+    func next() -> Int? {
+        return 2
+    }
+}
+
+/*:
+Then Eidhof and Velocity give a more interesting generator. One that has some state and can generate the Fibonacci series:
+*/
+
+class FibonacciGenerator: GeneratorType {
+    var state = (0, 1)
+    func next() -> Int? {
+        let returnValue = state.0
+        state = (state.1, state.0 + state.1)
+        return returnValue
+    }
+}
+
+let aFibonacciGenerator = FibonacciGenerator()
+
+for i in 0..<10 {
+    print("\(aFibonacciGenerator.next()!)")
+}
+
+/*:
+### Sequences
+ 
+So that you can make multiple generators from a single underlying object, there is a protocol called SequenceType, which you can glean from the [Swift doc for SequenceType]( http://swiftdoc.org/v2.2/protocol/SequenceType/ )
+ 
+```
+protocol SequenceType {
+   associatedtype Generator : GeneratorType
+   associatedtype SubSequence
+   func generate() -> Generator
+   func dropFirst(n: Int) -> Self.SubSequence
+   func dropLast(n: Int) -> Self.SubSequence
+   func prefix(maxLength: Int) -> Self.SubSequence
+}
+ 
+```
+So now you know how `for i in x { print("\(i)") }` works. You could implement it in terms of a while loop as:
+*/
+
+var g = x.generate()
+while var i = g.next() {
+    print("\(i)")
+}
+
+/*:
+### Function-Based Generators and Sequences
+
+Swift provides a very capable class called AnyGenerator whose init method just takes a function block. Here is how you could use it to generate the Fibonacci numbers:
+*/
+
+var state = (0, 1)
+var anyGenerator: AnyGenerator<Int> = AnyGenerator { let returnValue = state.0; state = (state.1, state.0 + state.1); return returnValue }
+for i in 0..<10 {
+    print("\(anyGenerator.next()!)")
+}
 
