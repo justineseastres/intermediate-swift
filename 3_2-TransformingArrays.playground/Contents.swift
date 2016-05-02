@@ -98,10 +98,9 @@ fourthPower(10) // 10,000
 
 let oneTwoThree = [1, 2, 3]
 
-let oneSixteenEightyone = oneTwoThree.map { base in fourthPower(base) }
+let someThing = oneTwoThree.map {varr in fourthPower(varr) }
 
-oneSixteenEightyone.last // 81
-
+someThing.last //81
 /*:
 ### Filter
 
@@ -111,7 +110,7 @@ Here is a filter that returns only the numbers in an array that are divisible by
 
 */
 
-let divisibleByThree = [2, 4, 6, 8, 10, 12, 14, 16, 18].filter { value in value % 3 == 0 }
+let divisibleByThree = [2, 4, 6, 8, 10, 12, 14, 16, 18].filter{ value in value % 2 == 0 }
 
 divisibleByThree // [6, 12, 18]
 
@@ -133,10 +132,15 @@ let thisMonthsRentals = [
 ]
 
 let balanceForward = 77.50 // prior rentals
-
 var total: Double = 0.0
 
-total = thisMonthsRentals.reduce(balanceForward) {total, rental in total + rental.price}
+func totalHours(rentals: [CarRental]) -> Double {
+    total = thisMonthsRentals.reduce(balanceForward) {total, rentals in total + rentals.hours}
+    return total
+}
 
-total // 222.24 = 77.50 + 29.99 + 99.50 + 15.25
+
+total = thisMonthsRentals.reduce(balanceForward) {total, rentals in total + rentals.hours}
+total
+// 222.24 = 77.50 + 29.99 + 99.50 + 15.25
 
